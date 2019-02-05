@@ -11,8 +11,8 @@ days_regex <- "\\b[Ll]undi\\b|\\b[Mm]ardi\\b|\\b[Mm]ercredi\\b|\\b[Jj]eudi\\b|\\
 #' 
 #' @export
 #' @importFrom rlang quo_name enquo
-#' @importFrom magrittr %>%
-#' @importFrom assertthat assert_that
+#' @importFrom attempt stop_if_not
+#' @importFrom stringr str_extract_all
 #' 
 #' @return a tibble with the number of days detected by the algo
 #'
@@ -22,9 +22,9 @@ days_regex <- "\\b[Ll]undi\\b|\\b[Mm]ardi\\b|\\b[Mm]ercredi\\b|\\b[Jj]eudi\\b|\\
 #' pr_detect_days(a, jours)
 
 pr_detect_days <- function(df, col){
-  assertthat::assert_that(inherits(df, "data.frame"), msg = "df should be a data.frame")
-  col <- rlang::quo_name(rlang::enquo(col))
-  df$days <- stringr::str_extract_all(df[[col]], pattern = days_regex)
+  stop_if_not(inherits(df, "data.frame"), msg = "df should be a data.frame")
+  col <- quo_name(enquo(col))
+  df$days <- str_extract_all(df[[col]], pattern = days_regex)
   df$n_days <- length_list(df$days)
   structure(df, class = c("tbl_df", "tbl", "data.frame"))
 }
@@ -37,7 +37,7 @@ month_regex <- paste0("\\b[Jj]anvier\\b|\\b[Ff][",intToUtf8(233),"e]vrier\\b|\\b
 #'
 #' @param df a dataframe
 #' @param col the column containing the text
-#' 
+#' @importFrom attempt stop_if_not
 #' @export
 #' 
 #' @return a tibble with the number of days detected by the algo
@@ -48,9 +48,9 @@ month_regex <- paste0("\\b[Jj]anvier\\b|\\b[Ff][",intToUtf8(233),"e]vrier\\b|\\b
 #' pr_detect_months(a, month)
 
 pr_detect_months <- function(df, col){
-  assertthat::assert_that(inherits(df, "data.frame"), msg = "df should be a data.frame")
-  col <- rlang::quo_name(rlang::enquo(col))
-  df$months <- stringr::str_extract_all(df[[col]], pattern = month_regex)
+  stop_if_not(inherits(df, "data.frame"), msg = "df should be a data.frame")
+  col <- quo_name(enquo(col))
+  df$months <- str_extract_all(df[[col]], pattern = month_regex)
   df$n_months <- length_list(df$months)
   structure(df, class = c("tbl_df", "tbl", "data.frame"))
 }

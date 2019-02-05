@@ -31,11 +31,9 @@ pronom_regex_tpp <- "\\b[Ii]ls\\b|\\b[Ee]lles\\b|\\b[Ee]ux\\b|\\b[Ll]eurs*\\b"
 #' 
 #' @export
 #' @importFrom rlang quo_name enquo
-#' @importFrom magrittr %>% %<>%
 #' @importFrom stringr str_extract_all
 #' @importFrom tidyr gather
-#' @importFrom dplyr filter
-#' @importFrom assertthat assert_that
+#' @importFrom attempt stop_if_not
 #' 
 #' @return a tibble with the detected pronouns
 #'
@@ -46,23 +44,23 @@ pronom_regex_tpp <- "\\b[Ii]ls\\b|\\b[Ee]lles\\b|\\b[Ee]ux\\b|\\b[Ll]eurs*\\b"
 #' pr_detect_pro(a, text)
 
 pr_detect_pro <- function(df, col, verbose = FALSE){
-  assertthat::assert_that(inherits(df, "data.frame"), msg = "df should be a data.frame")
-  col <- rlang::quo_name(rlang::enquo(col))
-  df$pps <- stringr::str_extract_all(df[[col]], pattern = pronom_regex_pps)
-  df$dps <- stringr::str_extract_all(df[[col]], pattern = pronom_regex_dps)
-  df$tps <- stringr::str_extract_all(df[[col]], pattern = pronom_regex_tps)
-  df$ppp <- stringr::str_extract_all(df[[col]], pattern = pronom_regex_ppp)
-  df$dpp <- stringr::str_extract_all(df[[col]], pattern = pronom_regex_dpp)
-  df$tpp <- stringr::str_extract_all(df[[col]], pattern = pronom_regex_tpp)
+  stop_if_not(inherits(df, "data.frame"), msg = "df should be a data.frame")
+  col <- quo_name(enquo(col))
+  df$pps <- str_extract_all(df[[col]], pattern = pronom_regex_pps)
+  df$dps <- str_extract_all(df[[col]], pattern = pronom_regex_dps)
+  df$tps <- str_extract_all(df[[col]], pattern = pronom_regex_tps)
+  df$ppp <- str_extract_all(df[[col]], pattern = pronom_regex_ppp)
+  df$dpp <- str_extract_all(df[[col]], pattern = pronom_regex_dpp)
+  df$tpp <- str_extract_all(df[[col]], pattern = pronom_regex_tpp)
   pos <- which(names(df) == "pps") 
   if(verbose){
-    df <- tidyr::gather(df, key = "pronoun", value = "full_list", pos:length(df))
-    df <- dplyr::filter(df, full_list != "character(0)")
+    df <- gather(df, key = "pronoun", value = "full_list", pos:length(df))
+    df <- df[df$full_list != "character(0)",]
     structure(df, class = c("tbl_df", "tbl", "data.frame"))
   } else {
-    df[,pos:length(df)] <- purrr::map_df(df[,pos:length(df)], length_list)
-    df <- tidyr::gather(df, key = "pronoun", value = "count", pos:length(df))
-    df <- dplyr::filter(df, count != 0)
+    df[,pos:length(df)] <- as.data.frame(lapply(df[,pos:length(df)], length_list))
+    df <- gather(df, key = "pronoun", value = "count", pos:length(df))
+    df <- df[df$count != 0,]
     structure(df, class = c("tbl_df", "tbl", "data.frame"))
   }
 }

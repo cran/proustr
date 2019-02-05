@@ -9,21 +9,12 @@
 #' @format A tibble with their name
 "proust_char"
 
-#' Sentiment lexicon with polarity
+#' Stopwords
 #'
-#' Dataset from: Amine Abdaoui, Jérôme Azé, Sandra Bringay et Pascal Poncelet. FEEL: French Expanded Emotion Lexicon. Language Resources and Evaluation, LRE 2016, pp 1-23.
+#' ISO stopwords
 #'
-#'
-#' @source \url{http://www.lirmm.fr/~abdaoui/FEEL.html}
+#' @source \url{https://raw.githubusercontent.com/stopwords-iso/stopwords-iso/master/stopwords-iso.json}
 #'
 #' @format A tibble
-"sentiments_polarity"
+"stop_words"
 
-#' Sentiment lexicon with score
-#'
-#' Dataset from: Amine Abdaoui, Jérôme Azé, Sandra Bringay et Pascal Poncelet. FEEL: French Expanded Emotion Lexicon. Language Resources and Evaluation, LRE 2016, pp 1-23.
-#'
-#' @source \url{http://www.lirmm.fr/~abdaoui/FEEL.html}
-#'
-#' @format A tibble
-"sentiments_score"

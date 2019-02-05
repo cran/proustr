@@ -2,23 +2,20 @@
 % Please edit documentation in R/proust_sentiments.R
 \name{proust_sentiments}
 \alias{proust_sentiments}
-\title{Sentiment Lexicon}
-\source{
-Amine Abdaoui, Jérôme Azé, Sandra Bringay et Pascal Poncelet. FEEL: French Expanded Emotion Lexicon. Language Resources and Evaluation, LRE 2016, pp 1-23.
-}
+\title{Old sentiment lexicon
+This function has been deprecated, and will be in next proustr version.
+See the {rfeel} package now: http://github.com/ColinFay/rfeel}
 \usage{
 proust_sentiments(type = c("polarity", "score"))
 }
 \arguments{
-\item{type}{polarity (positive or negative) or score on six sentiments (joy, fear, sadness, anger, surprise, disgust)}
+\item{type}{For backward compatibility}
 }
 \value{
 a tibble
 }
 \description{
-A sentiment lexicon with eitheir polarity or score.
-}
-\examples{
-proust_sentiments(type = "score")
-proust_sentiments(type = "polarity")
+Old sentiment lexicon
+This function has been deprecated, and will be in next proustr version.
+See the {rfeel} package now: http://github.com/ColinFay/rfeel
 }
